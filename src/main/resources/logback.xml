@@ -1,0 +1,18 @@
+<configuration>
+    <!-- Консольный Appender -->
+    <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Корневой логгер -->
+    <root level="info">
+        <appender-ref ref="STDERR" />
+    </root>
+
+    <!-- Настройка уровня логирования для конкретного пакета -->
+    <logger name="web" level="info" />
+
+</configuration>
