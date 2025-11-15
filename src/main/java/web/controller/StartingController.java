@@ -26,6 +26,9 @@ public class StartingController {
 
     @GetMapping (value = "/user/edit")
     public String showUser (@RequestParam long id, Model model) {
+        if (userService.getUserByID(id) == null) {
+            return "redirect:/";
+        }
         model.addAttribute("user", userService.getUserByID(id));
         return "user";
     }
@@ -55,11 +58,13 @@ public class StartingController {
             return "user";
         }
         User oldUser = userService.getUserByID(id);
+        if (oldUser == null) {
+            return "redirect:/";
+        }
         if (!oldUser.getEmail().equals(user.getEmail()) && userService.existsEmail(user.getEmail())) {
             bindingResult.addError(new FieldError("user", "email", user.getEmail(), false, null, null,
                     "This e-mail already exists"));
             return "user";
-
         }
         userService.updateUser(user);
         return "redirect:/";
@@ -67,6 +72,9 @@ public class StartingController {
 
     @PostMapping (value = "/delete")
     public String deleteUser (@RequestParam long id) {
+        if (userService.getUserByID(id) == null) {
+            return "redirect:/";
+        }
         userService.deleteUser(id);
         return "redirect:/";
     }
